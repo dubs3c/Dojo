@@ -1,0 +1,70 @@
+<div id="sidebar">
+    <h1><a href="/">Dōjō</a></h1>
+ 
+    {{ $currentPage := . }}
+    {{ range $taxonomyname, $taxonomy := .Site.Taxonomies }}
+        {{ if eq "categories" $taxonomyname}}
+                {{ range $key, $value := $taxonomy }}
+                <div class="topic_category">
+                    <h3 style="text-transform: capitalize;">{{ $key }}</h3>
+                    <ul>
+                        {{ range $value.Pages }}
+                            <li><a href="{{ .Permalink}}">{{ .LinkTitle }}</a></li>
+                            {{ $menu_item_url := .URL | relLangURL }}
+                            {{ $page_url:= $currentPage.RelPermalink | relLangURL }}
+                        
+                            {{ if eq $menu_item_url $page_url }}
+                                <div class="sidebar_toc">
+                                    {{ .TableOfContents }}
+                                </div>
+                            {{ end }}
+                        {{ end }}
+                    </ul>
+                </div>
+                {{ end }}
+        {{ end}}
+    {{ end }}
+
+<!--
+    <div class="topic_category">
+        <h3>Binary Exploitation</h3>
+        <ul>
+            <li><a href="#">Pwn I</a></li>
+            <li><a href="#">Pwn II</a></li>
+            <li><a href="#">Pwn III</a></li>
+        </ul>
+    </div>
+
+    <div class="topic_category">
+        <h3>Code Review</h3>
+        <ul>
+            <li><a href="#">What is code review</a></li>
+            <li><a href="#">CVE-234-1234</a></li>
+            <li><a href="#">Java</a></li>
+        </ul>
+    </div>
+
+    <div class="topic_category">
+        <h3>Cryptography</h3>
+        <ul>
+            <li><a href="#">AES Padding Oracle I</a></li>
+
+            <li><a href="#">AES Padding Oracle II</a></li>
+            <li><a href="#">AES Padding Oracle III</a></li>
+            <li><a href="#">RSA</a></li>
+        </ul>
+    </div>
+
+    <div class="topic_category">
+        <h3>Reversing</h3>
+        <ul>
+            <li><a href="#">C Anti-Debug I</a></li>
+            <li><a href="#">C Anti-Debug II</a></li>
+            <li><a href="#">C Anti-Debug III</a></li>
+            <li><a href="#">C#</a></li>
+            <li><a href="#">Java</a></li>
+            <li><a href="#">Python</a></li>
+        </ul>
+    </div>
+-->
+</div>

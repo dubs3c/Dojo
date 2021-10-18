@@ -1,0 +1,22 @@
+{{ define "main" }}
+<article>
+    <h1>{{ .Title }}</h1>
+    <br />
+
+    <p class="small"><strong>Date:</strong> {{.PublishDate.Format "2006-01-02"}} </p>
+    <p class="small"><strong>Category:</strong> <a href="/categories{{lower .Params.categories  | relURL}}">{{.Params.categories}}</a>  </p>
+    <p class="small"><strong>Reading time:</strong> {{ math.Round (div (countwords .Content) 220.0) }} minutes</p>
+    
+    {{ if .Params.tags }}
+    <p class="small"><strong>Tags:</strong>{{ range .Params.tags}} <a href="/tags{{. | relURL}}" class="tag">{{.}}</a> {{ end }}</p> 
+    <br />
+    {{ end }}
+    <hr />
+
+
+    <br>
+    <div id="article_content">
+        {{ .Content }}
+    </div>
+</article>
+{{ end }}

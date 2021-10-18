@@ -1,0 +1,12 @@
+name = "Thedojo"
+license = "MIT"
+licenselink = "https://github.com/yourname/yourtheme/blob/master/LICENSE"
+description = ""
+homepage = "https://infected-database.org"
+tags = []
+features = []
+min_version = "0.41.0"
+
+[author]
+  name = "dubs3c"
+  homepage = "https://infd.pw"

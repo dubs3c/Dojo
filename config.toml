@@ -1,0 +1,22 @@
+baseURL = 'http://example.org/'
+languageCode = 'en-us'
+title = 'The Security Dōjō'
+theme = "thedojo"
+
+[markup]
+    [markup.highlight]
+        style = 'pygments'
+        codeFences = true
+        guessSyntax = false
+        hl_Lines = ""
+        lineNoStart = 1
+        lineNos = true
+        lineNumbersInTable = true
+        tabWidth = 4
+
+    [markup.tableOfContents]
+        endLevel = 3
+        ordered = true
+        startLevel = 2
+    [markup.goldmark.renderer]
+        unsafe= true

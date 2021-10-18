@@ -1,0 +1,72 @@
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+    <meta content="utf-8" http-equiv="encoding">
+
+    <link rel="preload" href="/fonts/FiraCode-VariableFont_wght.ttf" as="font" type="font/ttf" crossorigin>
+    <link rel="stylesheet" href="{{"css/grid.css" | relURL }}" type="text/css" />
+    <link rel="stylesheet" href="{{"css/highlight.css" | relURL }}" type="text/css" />
+    <link rel="stylesheet" href="{{"css/main.css" | relURL }}" type="text/css" />
+    {{ $title := print .Site.Title " | " .Title }}
+    {{ if .IsHome }}{{ $title = .Site.Title }}{{ end }}
+    
+    <meta name="apple-mobile-web-app-title" content="{{ $title }}" /> 
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    
+    <meta name="twitter:site" content="{{ .Site.Params.twitter }}">
+    <meta name="twitter:creator" content="{{ .Site.Params.twitter }}" />
+
+    <!-- Title Tags-->
+    <meta property="og:title" content="{{ $title  }}" />
+    <meta name="twitter:title" content="{{ $title  }}" />
+    <meta itemprop="name" content="{{ $title  }}" />
+    <meta name="application-name" content="{{ $title  }}" />
+    <meta property="og:site_name" content="{{ .Site.Params.sitename }}" />
+
+    <meta property="og:article:published_time" content={{ .Date.Format "2006-01-02T15:04:05Z0700" | safeHTML }} /> 
+    <meta property="article:published_time" content={{ .Date.Format "2006-01-02T15:04:05Z0700" | safeHTML }} />
+
+    <!-- Link tags -->
+    <base href="{{ .Permalink }}">
+    <link rel="canonical" href="{{ .Permalink }}" itemprop="url" /> 
+    <meta name="url" content="{{ .Permalink }}" />
+    <meta name="twitter:url" content="{{ .Permalink }}" /> 
+    <meta property="og:url" content="{{ .Permalink }}" />
+
+    {{ with.Params.author }}
+    <!-- Author tags -->
+    <meta property="og:article:author" content="{{humanize . }}" />
+    <meta property="article:author" content="{{humanize . }}" /> 
+    <meta name="author" content="{{humanize . }}" /> 
+    {{ end }}
+  
+    <!-- Description tags -->
+    <meta name="description" content="{{ .Params.description }}" />
+    <meta itemprop="description" content="{{ .Params.description }}" />
+    <meta property="og:description" content="{{ .Params.description }}" />
+    <meta name="twitter:description" content="{{ .Params.description }}" />
+    
+    <!-- Image tags-->
+    {{ with .Params.image }} 
+    <meta itemprop="image" content="{{ "/img" | absURL  }}{{ . | relURL}}" />
+    <meta property="og:image" content="{{ "/img" | absURL  }}{{ . | relURL}}" /> 
+    <meta name="twitter:image" content="{{ "/img" | absURL  }}{{ . | relURL}}" />
+    <meta name="twitter:image:src" content="{{ "/img" | absURL  }}{{ . | relURL}}" /> 
+    {{ else }}
+    <meta itemprop="image" content="{{ .Site.Params.ogimage | relURL }}" />
+    <meta property="og:image" content="{{ .Site.Params.ogimage | absURL }}" />
+    <meta name="twitter:image" content="{{ .Site.Params.ogimage | absURL }}" />
+    <meta name="twitter:image:src" content="{{ .Site.Params.ogimage | absURL }}" /> 
+    {{ end }}
+
+    <meta property="og:updated_time" content={{ .Lastmod.Format "2006-01-02T15:04:05Z0700" | safeHTML }} />
+    <link rel="sitemap" type="application/xml" title="Sitemap" href="{{ .Site.BaseURL }}sitemap.xml" />
+
+    {{ with .OutputFormats.Get "RSS" }}
+    <link href="{{ .Permalink }}" rel="alternate" type="application/rss+xml" title="{{ $.Site.Title }}" />
+    <link href="{{ .Permalink }}" rel="feed" type="application/rss+xml" title="{{ $.Site.Title }}" />
+    {{ end }}
+
+    <title>{{ $title }}</title>
+</head>
