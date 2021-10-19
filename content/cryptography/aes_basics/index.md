@@ -16,5 +16,10 @@ tags: ["AES-CBC", "AES-ECB"]
 
 ![images/CBC_decryption.png](images/CBC_decryption.png)
 
+is simply AEC-ECB mode but with XOR
 
 ## AES-ECB
+
+## AES-CTR
+
+## Exercises

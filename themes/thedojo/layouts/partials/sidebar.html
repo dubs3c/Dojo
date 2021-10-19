@@ -1,5 +1,8 @@
 <div id="sidebar">
-    <h1><a href="/">Dōjō</a></h1>
+    <!--<h1>Dōjō</a></h1>-->
+    <a href="/"><img src="/images/dojo-image.png" width="50%" height="" /></a>
+    <br />
+    <span style="position: relative; left: 20%;"><small><i>Dōjō</i></small></span>
  
     {{ $currentPage := . }}
     {{ range $taxonomyname, $taxonomy := .Site.Taxonomies }}
@@ -48,10 +51,9 @@
         <h3>Cryptography</h3>
         <ul>
             <li><a href="#">AES Padding Oracle I</a></li>
-
             <li><a href="#">AES Padding Oracle II</a></li>
             <li><a href="#">AES Padding Oracle III</a></li>
-            <li><a href="#">RSA</a></li>
+            <li><a href="#">RSA I</a></li>
         </ul>
     </div>
 

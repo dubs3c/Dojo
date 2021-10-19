@@ -2,9 +2,6 @@
 <article>
     <h1>{{ .Title }}</h1>
     <br />
-
-    <p class="small"><strong>Date:</strong> {{.PublishDate.Format "2006-01-02"}} </p>
-    <p class="small"><strong>Category:</strong> <a href="/categories{{lower .Params.categories  | relURL}}">{{.Params.categories}}</a>  </p>
     <p class="small"><strong>Reading time:</strong> {{ math.Round (div (countwords .Content) 220.0) }} minutes</p>
     
     {{ if .Params.tags }}

@@ -49,6 +49,17 @@ footer {
     margin: 1em 0 1em 0;
 }
 
+article ul {
+    list-style-position: inside;
+    margin: 1em 0 1em 0;
+}
+
+article p > code:not([class]) {
+    border: 1px solid #95979c;
+    padding: 0 4px;
+    border-radius: 4px;
+}
+
 #article_content img {
     max-width: 100%;
 }
@@ -62,4 +73,10 @@ pre {
     margin: 2em 0 2em 0;
     font-family: "Fira Code", monospace, serif;
     font-size: 0.99rem;
+}
+
+figure figcaption p {
+    text-align: center;
+    margin:auto;
+    font-style: italic;
 }

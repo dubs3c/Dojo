@@ -15,8 +15,6 @@ theme = "thedojo"
         tabWidth = 4
 
     [markup.tableOfContents]
-        endLevel = 3
+        endLevel = 4
         ordered = true
         startLevel = 2
-    [markup.goldmark.renderer]
-        unsafe= true
