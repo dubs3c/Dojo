@@ -12,7 +12,7 @@ When using AES in CBC mode without any integrity checks such as a MAC, it can be
 
 
 ## What is padding?
-As we learned in [AES Basics](/cryptography/aes_bascis), because AES-CBC is a block cipher and requires a fixed length of 128 bits, the final plaintext block may need extra bytes or so called "padding". There exists different padding schemes but the most popular one used is PKCS#7. For example, if a block needs two more bytes in order to be valid (128 bits in size), it will be padded with `\0x2\0x2`. If four bytes are needed, the padding will be `\0x4\0x4\0x4\0x4` and so on. See the table below for more examples *(decimal formatted)*:
+As we learned in [AES Basics](/cryptography/aes_bascis), AES-CBC is a block cipher and requires a fixed length of 128 bits, therefore the final plaintext block may need extra bytes or so called "padding". There exists different padding schemes but the most popular one used is PKCS#7. For example, if a block needs two more bytes in order to be valid (128 bits in size), it will be padded with `\0x2\0x2`. If four bytes are needed, the padding will be `\0x4\0x4\0x4\0x4` and so on. See the table below for more examples *(decimal formatted)*:
 
 ```
 01
