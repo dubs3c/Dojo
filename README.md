@@ -1,2 +1,2 @@
-# Dojo
-Enter the Dojo
+# Dōjō
+Enter the Dōjō
