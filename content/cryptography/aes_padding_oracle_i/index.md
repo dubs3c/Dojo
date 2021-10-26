@@ -58,11 +58,9 @@ If successful then the second to last intermediate byte has been found and the p
 
 You may wonder how we should recover plaintext block 0 if there are no previous ciphertext blocks. If you know the IV (which should be public) then you can simply re-arrange the blocks in such a way that the IV block appears first, i.e `[IV][BLOCK_0][BLOCK_1][BLOCK_2]`. Now it is possible to recover plaintext block 0 by modifying the IV block like before. If the IV is not known, then you can try setting the IV block to all 0s, 1s or any other default value you can think of. If that doesn't work then you can't recover the first block, but that is OK in most cases. 
 
-## Other scenarios
+## Already padded messages
 
-- already padded
-- recover block 0 (requires IV)
-- modify ciphertexts
+TBA
 
 ## How to prevent
 
