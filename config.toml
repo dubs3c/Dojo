@@ -1,4 +1,4 @@
-baseURL = 'http://example.org/'
+baseURL = 'https://dubell.io/Dojo'
 languageCode = 'en-us'
 title = 'The Security Dōjō'
 theme = "thedojo"
