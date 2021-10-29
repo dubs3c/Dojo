@@ -64,7 +64,7 @@ TBA
 
 ## How to prevent
 
-The main issue with padding oracles is the fact that the attacker can tell whether a padding occurred or not. If attacker can not deduce this information, the attack will most likely fail. However hiding error messages does not remove the vulnerability. A better approach would be to upgrade to AES-GCM or add a message authentication code such as HMAC to the ciphertext. As a result, when the ciphertext is created, the encryption function computes the hash of the ciphertext and embeds it into the ciphertext. For instance, the final ciphertext can be visualized as `[HMAC][CIPHERTEXT]`.
+The main issue with padding oracles is the fact that the attacker can tell whether a padding error occurred or not. If attacker can not deduce this information, the attack will most likely fail. However hiding error messages does not remove the vulnerability. A better approach would be to upgrade to AES-GCM or add a message authentication code such as HMAC to the ciphertext. As a result, when the ciphertext is created, the encryption function computes the hash of the ciphertext and embeds it into the encrypted message. For instance, the final ciphertext can be visualized as `[HMAC][CIPHERTEXT]`.
 
 Before decrypting, the decryption function will first compute the hash of the `[CIPHERTEXT]` and compare it to `[HMAC]`. If equal, the integrity check has succeeded. If it failed, decryption should not be attempted. This method is also sometimes called *Encrypt-Then-Mac*.
 
