@@ -1,0 +1,133 @@
+<!doctype html><html lang=en><head>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<meta charset=utf-8>
+<meta content="utf-8" http-equiv=encoding>
+<link rel=preload href=/fonts/FiraCode-VariableFont_wght.ttf as=font type=font/ttf crossorigin>
+<link rel=stylesheet href=/Dojo/css/grid.css type=text/css>
+<link rel=stylesheet href=/Dojo/css/highlight.css type=text/css>
+<link rel=stylesheet href=/Dojo/css/main.css type=text/css>
+<meta name=apple-mobile-web-app-title content="The Security Dōjō | AES Padding Oracle I">
+<meta name=apple-mobile-web-app-capable content="yes">
+<meta name=apple-mobile-web-app-status-bar-style content="black-translucent">
+<meta name=twitter:site content>
+<meta name=twitter:creator content>
+<meta property="og:title" content="The Security Dōjō | AES Padding Oracle I">
+<meta name=twitter:title content="The Security Dōjō | AES Padding Oracle I">
+<meta itemprop=name content="The Security Dōjō | AES Padding Oracle I">
+<meta name=application-name content="The Security Dōjō | AES Padding Oracle I">
+<meta property="og:site_name" content>
+<meta property="og:article:published_time" content="2020-01-27T13:33:37Z">
+<meta property="article:published_time" content="2020-01-27T13:33:37Z">
+<base href=https://dubell.io/Dojo/cryptography/aes_padding_oracle_i/>
+<link rel=canonical href=https://dubell.io/Dojo/cryptography/aes_padding_oracle_i/ itemprop=url>
+<meta name=url content="https://dubell.io/Dojo/cryptography/aes_padding_oracle_i/">
+<meta name=twitter:url content="https://dubell.io/Dojo/cryptography/aes_padding_oracle_i/">
+<meta property="og:url" content="https://dubell.io/Dojo/cryptography/aes_padding_oracle_i/">
+<meta property="og:article:author" content="Dubs3c">
+<meta property="article:author" content="Dubs3c">
+<meta name=author content="Dubs3c">
+<meta name=description content="Learn how to perform the classic padding oracle attack">
+<meta itemprop=description content="Learn how to perform the classic padding oracle attack">
+<meta property="og:description" content="Learn how to perform the classic padding oracle attack">
+<meta name=twitter:description content="Learn how to perform the classic padding oracle attack">
+<meta itemprop=image content="https://dubell.io/img/Dojo/hacker2.jpg">
+<meta property="og:image" content="https://dubell.io/img/Dojo/hacker2.jpg">
+<meta name=twitter:image content="https://dubell.io/img/Dojo/hacker2.jpg">
+<meta name=twitter:image:src content="https://dubell.io/img/Dojo/hacker2.jpg">
+<meta property="og:updated_time" content="2020-01-27T13:33:37Z">
+<link rel=sitemap type=application/xml title=Sitemap href=https://dubell.io/Dojositemap.xml>
+<title>The Security Dōjō | AES Padding Oracle I</title>
+</head><body><main>
+<div class=row>
+<div class="col col-4"><div id=sidebar>
+<a href=https://dubell.io/Dojo><img src=https://dubell.io/Dojo/images/dojo-image.png width=50% height></a>
+<br>
+<span style=position:relative;left:20%><small><i>Dōjō</i></small></span>
+<div class=topic_category>
+<h3 style=text-transform:capitalize>cryptography</h3>
+<ul>
+<li><a href=https://dubell.io/Dojo/cryptography/aes_basics/>AES Basics</a></li>
+<li><a href=https://dubell.io/Dojo/cryptography/aes_padding_oracle_i/>AES Padding Oracle I</a></li>
+<div class=sidebar_toc>
+<nav id=TableOfContents>
+<ol>
+<li><a href=#what-is-padding>What is padding?</a></li>
+<li><a href=#performing-the-attack>Performing the attack</a></li>
+<li><a href=#already-padded-messages>Already padded messages</a></li>
+<li><a href=#how-to-prevent>How to prevent</a></li>
+<li><a href=#exercises>Exercises</a></li>
+</ol>
+</nav>
+</div>
+<li><a href=https://dubell.io/Dojo/cryptography/aes_padding_oracle_ii/>AES Padding Oracle II</a></li>
+</ul>
+</div>
+</div>
+</div>
+<div class=col>
+<article>
+<h1>AES Padding Oracle I</h1>
+<br>
+<p class=small><strong>Reading time:</strong> 5 minutes</p>
+<p class=small><strong>Tags:</strong> <a href=/tags/Dojo/aes-cbc class=tag>aes-cbc</a> <a href=/tags/Dojo/oracle class=tag>oracle</a> <a href=/tags/Dojo/padding class=tag>padding</a> </p>
+<p class=small><strong>Files:</strong>
+<a href=files/hack.py>hack.py</a>
+<a href=files/test.html>test.html</a>
+</p>
+<br>
+<div class=hr></div>
+<br>
+<div id=article_content>
+<p>When using AES in CBC mode without any integrity checks such as a MAC, it can be possible to leak information about a ciphertext which can lead to full plaintext recovery. Under such circumstances the attacker is able to send arbitrary ciphertexts to be decrypted to an oracle (e.g. application service) and obtain the result of the decryption. If the result indicates that a padding error has occurred, the attacker can use the information to recover the plaintext without knowing the secret key. Furthermore, the attacker can modify a ciphertext such that it decrypts to a defined plaintext, chosen by the attacker. For instance, changing <code>user=Normal</code> to <code>user=Admin</code>. This is possible because the application service informs the attacker whether a padding error has occurred or not. More about padding in the next section.</p>
+<h2 id=what-is-padding>What is padding?</h2>
+<p>As we learned in <a href=/cryptography/aes_bascis>AES Basics</a>, AES-CBC is a block cipher and requires a fixed length of 128 bits, therefore the final plaintext block may need extra bytes or so called &ldquo;padding&rdquo;. There exists different padding schemes but the most popular one used is PKCS#7. For example, if a block needs two more bytes in order to be valid (128 bits in size), it will be padded with <code>\0x2\0x2</code>. If four bytes are needed, the padding will be <code>\0x4\0x4\0x4\0x4</code> and so on. See the table below for more examples <em>(decimal formatted)</em>:</p>
+<pre tabindex=0><code>01
+02 02
+03 03 03
+04 04 04 04
+05 05 05 05 05
+06 06 06 06 06 06
+07 07 07 07 07 07 07
+08 08 08 08 08 08 08 08
+09 09 09 09 09 09 09 09 09
+10 10 10 10 10 10 10 10 10 10
+11 11 11 11 11 11 11 11 11 11 11
+12 12 12 12 12 12 12 12 12 12 12 12
+13 13 13 13 13 13 13 13 13 13 13 13 13
+14 14 14 14 14 14 14 14 14 14 14 14 14 14
+15 15 15 15 15 15 15 15 15 15 15 15 15 15 15
+16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 &lt;-- Block full of padding
+</code></pre><p>If a ciphertext contains an incorrect padding, the decryption will most likely fail and produce an error. If you can observe this error, either through an error message or measuring application response times, then you can recover a given ciphertext without knowledge about the private key. This is why it is called a padding oracle attack, because you ask the oracle if the padding is correct or not. This is quite a severe information leak. The next section describes how to perform the attack.</p>
+<h2 id=performing-the-attack>Performing the attack</h2>
+<p>Because the service <em>(oracle)</em> returns whether a ciphertext is correctly padded or not, we can continuously send modified ciphertext to recover the intermediate bytes produced by the AES algorithm thus decrypting the ciphertext.</p>
+<figure><img src=images/aes-cbc-padding-oracle-1.png alt="Attacking lololo"><figcaption>
+<p>Attacking lololo</p>
+</figcaption>
+</figure>
+<p>The above image contains three blocks, each containing 16 bytes. Each block&rsquo;s decryption/encryption output is XORed with the previous block&rsquo;s ciphertext. Thus, in order to control the output of ciphertext block 2, we need to modify ciphertext block 1.</p>
+<p>The attack is performed by modifying the last byte (red) in ciphertext block 1. The modified byte will eventually be XORed with last byte (green) in the final intermediate block. The result of this XOR operation should result in the correct plaintext byte, however in our case we want the result to become <code>\0x01</code>, indicating a padding of size <code>1</code> which should decrypt correctly <em>(even though the output may be corrupted)</em>. Therefore, if <code>red ^ green = 0x1</code> then we can simply perform <code>0x1 ^ red = green</code> in order to recover the intermediate byte (the green value). Once this value has been revealed, we can recover the last plaintext byte in plaintext block 2 by <code>green ^ C1_16 = P2_16</code> where <code>C1_16</code> is the sixteenth byte in ciphertext block 1 (red). We can express this mathematically:</p>
+<p>$$ I_{16_{block_{n}}} \otimes C_{16_{block_{n-1}}} = P_{16_{block_{n}}}$$</p>
+<p>In summary, the attack is simply to brute force all values between 00-ff (0-255) such that the result successfully decrypts. If so, the intermediate byte value has been found and then it is trivial to recover the corresponding plaintext byte.</p>
+<p>Once the last byte of $block_{n-1}$ has been recovered, it&rsquo;s time to move to the second to last byte. Now the goal is to set the padding to <code>\0x02\0x02</code>. This can be visualized in the image below:</p>
+<p><img src=images/aes-cbc-padding-oracle-2.png alt=images/aes-cbc-padding-oracle-1.png></p>
+<p>If successful then the second to last intermediate byte has been found and the plaintext byte can be recovered. Next step is to set the padding to <code>\0x03\0x03\0x03</code> and so on until you have gone through all bytes. Then the same process is repeated but for $block_{n-2}$ or ciphertext block 0 in images above.</p>
+<p>You may wonder how we should recover plaintext block 0 if there are no previous ciphertext blocks. If you know the IV (which should be public) then you can simply re-arrange the blocks in such a way that the IV block appears first, i.e <code>[IV][BLOCK_0][BLOCK_1][BLOCK_2]</code>. Now it is possible to recover plaintext block 0 by modifying the IV block like before. If the IV is not known, then you can try setting the IV block to all 0s, 1s or any other default value you can think of. If that doesn&rsquo;t work then you can&rsquo;t recover the first block, but that is OK in most cases.</p>
+<h2 id=already-padded-messages>Already padded messages</h2>
+<p>TBA</p>
+<h2 id=how-to-prevent>How to prevent</h2>
+<p>The main issue with padding oracles is the fact that the attacker can tell whether a padding error occurred or not. If attacker can not deduce this information, the attack will most likely fail. However hiding error messages does not remove the vulnerability. A better approach would be to upgrade to AES-GCM or add a message authentication code such as HMAC to the ciphertext. As a result, when the ciphertext is created, the encryption function computes the hash of the ciphertext and embeds it into the encrypted message. For instance, the final ciphertext can be visualized as <code>[HMAC][CIPHERTEXT]</code>.</p>
+<p>Before decrypting, the decryption function will first compute the hash of the <code>[CIPHERTEXT]</code> and compare it to <code>[HMAC]</code>. If equal, the integrity check has succeeded. If it failed, decryption should not be attempted. This method is also sometimes called <em>Encrypt-Then-Mac</em>.</p>
+<p>Don&rsquo;t underestimate information leaks!</p>
+<h2 id=exercises>Exercises</h2>
+<p>TBA</p>
+</div>
+</article>
+</div>
+</div>
+<footer><p>Dojo by infected-database.org</p></footer>
+</main>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id=MathJax-script async src=https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js></script>
+<script>MathJax={tex:{inlineMath:[['$','$'],['\\(','\\)']]}}</script>
+</body>
+</html>

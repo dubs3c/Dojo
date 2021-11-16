@@ -1,0 +1,53 @@
+
+.container, main {
+    max-width: 1360px;
+    margin: auto;
+}
+
+.col {
+    flex-basis: 100%;
+  }
+  
+@media screen and (min-width: 800px) {
+    .row {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .col {
+        flex: 1;
+    }
+
+    ._25 {
+        flex: 2.5;
+    }
+
+    .col-3 {
+        flex: 1 0 25%;
+    }
+
+    .col-4 {
+        flex: 0 0 25%;
+    }
+
+    .col-5 {
+        flex: 0 0 20%;
+    }
+
+    ._5 {
+        flex: 5;
+    }
+}
+
+.no-grow {
+    flex-grow: 0;
+}
+
+.col.center {
+    text-align: center;
+}
+
+.row.between {
+    justify-content: space-between;
+}
