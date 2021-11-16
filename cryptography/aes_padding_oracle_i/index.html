@@ -72,7 +72,6 @@
 <p class=small><strong>Tags:</strong> <a href=/tags/Dojo/aes-cbc class=tag>aes-cbc</a> <a href=/tags/Dojo/oracle class=tag>oracle</a> <a href=/tags/Dojo/padding class=tag>padding</a> </p>
 <p class=small><strong>Files:</strong>
 <a href=files/hack.py>hack.py</a>
-<a href=files/test.html>test.html</a>
 </p>
 <br>
 <div class=hr></div>
@@ -119,7 +118,13 @@
 <p>Before decrypting, the decryption function will first compute the hash of the <code>[CIPHERTEXT]</code> and compare it to <code>[HMAC]</code>. If equal, the integrity check has succeeded. If it failed, decryption should not be attempted. This method is also sometimes called <em>Encrypt-Then-Mac</em>.</p>
 <p>Don&rsquo;t underestimate information leaks!</p>
 <h2 id=exercises>Exercises</h2>
-<p>TBA</p>
+<p>Download the file <code>hack.py</code> attached to this article. Fire up the server and run the script. You should be presented with the following message after a few seconds:</p>
+<pre tabindex=0><code>essage by mikey, the most impressive hacker the gibson has seen
+</code></pre><p>Nice, you recovered the majority of the plaintext. But you missed the first block, can you recover it? The code contains everything you need in order to continue.</p>
+<p>If you believe you have recovered block 0, you can verify with the hash below:</p>
+<pre tabindex=0><code>$ echo -n &quot;&lt;block_0&gt;&quot; | shasum -a 256
+3c8d770904f2248b6661b99f1ef0d1e18cb6d4a417c594904e950f45bcce9ee7  -
+</code></pre>
 </div>
 </article>
 </div>
