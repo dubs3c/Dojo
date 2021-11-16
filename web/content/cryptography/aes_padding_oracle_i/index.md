@@ -6,6 +6,7 @@ image: hacker2.jpg
 author: "dubs3c"
 categories: "Cryptography"
 tags: ["aes-cbc", "oracle", "padding"]
+files: ["hack.py"]
 ---
 
 When using AES in CBC mode without any integrity checks such as a MAC, it can be possible to leak information about a ciphertext which can lead to full plaintext recovery. Under such circumstances the attacker is able to send arbitrary ciphertexts to be decrypted to an oracle (e.g. application service) and obtain the result of the decryption. If the result indicates that a padding error has occurred, the attacker can use the information to recover the plaintext without knowing the secret key. Furthermore, the attacker can modify a ciphertext such that it decrypts to a defined plaintext, chosen by the attacker. For instance, changing `user=Normal` to `user=Admin`. This is possible because the application service informs the attacker whether a padding error has occurred or not. More about padding in the next section.
@@ -72,4 +73,17 @@ Don't underestimate information leaks!
 
 ## Exercises
 
-TBA
+Download the file `hack.py` attached to this article. Fire up the server and run the script. You should be presented with the following message after a few seconds:
+
+```
+essage by mikey, the most impressive hacker the gibson has seen
+```
+
+Nice, you recovered the majority of the plaintext. But you missed the first block, can you recover it? The code contains everything you need in order to continue.
+
+If you believe you have recovered block 0, you can verify with the hash below:
+
+```
+$ echo -n "<block_0>" | shasum -a 256
+3c8d770904f2248b6661b99f1ef0d1e18cb6d4a417c594904e950f45bcce9ee7  -
+```
