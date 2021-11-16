@@ -23,7 +23,8 @@ jobs:
           hugo-version: 'latest'
           extended: true
 
-      - name: Build
+      - name: Buil
+        working-directory: ./web
         run: hugo --minify
 
       - name: Deploy
