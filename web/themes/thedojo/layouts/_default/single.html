@@ -6,10 +6,19 @@
     
     {{ if .Params.tags }}
     <p class="small"><strong>Tags:</strong>{{ range .Params.tags}} <a href="/tags{{. | relURL}}" class="tag">{{.}}</a> {{ end }}</p> 
-    <br />
     {{ end }}
+    
+    {{ $myvar := printf "content/%s%s" .Dir "files" }}
+    {{ if (fileExists $myvar) }}
+        <p class="small"><strong>Files:</strong>
+            {{ range (readDir $myvar ) }}
+                <a href="files/{{ .Name }}">{{ .Name }}</a> 
+            {{ end }}
+        </p>
+    {{ end }}
+    
+    <br />
     <div class="hr"></div>
-
 
     <br>
     <div id="article_content">
